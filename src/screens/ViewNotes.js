@@ -1,20 +1,47 @@
-import React,{useState} from 'react'
-import {View,StyleSheet,FlatList,TouchableOpacity,Animated,Dimensions} from 'react-native'
+import React,{useState,useEffect} from 'react'
+import {View,StyleSheet,FlatList,TouchableOpacity,Animated,Dimensions } from 'react-native'
 import {Text,FAB,IconButton,List} from 'react-native-paper'
 import Header from '../component/Header'
-import {useSelector,useDispatch} from 'react-redux'
+import {useSelector,useDispatch,shallowEqual} from 'react-redux'
 import {addnote,deletenote,editnote} from '../reducer/notesApp'
 import CardView from 'react-native-cardview'
 import { SwipeListView } from 'react-native-swipe-list-view';
-
+import AsyncStorage from '@react-native-community/async-storage'
+let IS_MOUNTED = false;
 
 function ViewNotes({navigation}){
+    const [retrieve,setRetrieve] = useState(true);
 
-    const notes = useSelector(state=>state);
+    useEffect(() => {
+         retrieveData();
+    },[retrieve]);
+
+    const {notes} = useSelector(state=>({
+        notes:state,
+
+    }));
+
+    const retrieveData = async () => {
+        try {
+          const valueString = await AsyncStorage.getItem('notesValues');
+          const value = JSON.parse(valueString);
+           for (var obj of value) {
+//             console.log(('rrrrrrrrrrrrrr'+JSON.stringify(obj.note)));
+             addNote(obj.note)
+           }
+
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+
     const dispatch = useDispatch();
-     console.log('11111111111111'+JSON.stringify(notes))
+
+
+
     const addNote  = note =>{
-//        console.log(note)
+
         dispatch(addnote(note))
     }
     const editNote  = note =>{
@@ -33,26 +60,17 @@ function ViewNotes({navigation}){
         </View>
     );
     const onSwipeValueChange = swipeData => {
-console.log(JSON.stringify(swipeData))
-        console.log('--------------'+JSON.stringify(notes[swipeData.key]))
+//        console.log('------------'+JSON.stringify(swipeData))
         const note = notes[swipeData.key];
         if(swipeData.isOpen){
-        dispatch(deletenote(note.id))
+         dispatch(deletenote(note.id))
         }
-//            this.animationIsRunning = true;
-//            Animated.timing(rowTranslateAnimatedValues[key], {
-//                toValue: 0,
-//                duration: 200,
-//            }).start(() => {
-//                dispatch(deletenote(notesswipeData.key))
-//                this.animationIsRunning = false;
-//            });
-//        }
+
     };
 
     return(
     <>
-        <Header titleText = 'Note App'/>
+        <Header disable = {true} titleText = 'Note App'/>
 
         <View style = {styles.container}>
             {notes.length==0 ? (
@@ -78,12 +96,11 @@ console.log(JSON.stringify(swipeData))
 
                     )}
                     renderHiddenItem={renderHiddenItem}
-                    keyExtractor={(item, index) => ""+index}
-
-                    leftOpenValue={Dimensions.get('window').width}
-                    previewRowKey={'0'}
-                    previewOpenValue={-40}
-                    previewOpenDelay={3000}
+                    keyExtractor={(item, index) => index.toString()}
+                    leftOpenValue={70}
+                    rightOpenValue ={-70}
+                    stopLeftSwipe={200}
+                    stopRightSwipe={200}
                     onSwipeValueChange={onSwipeValueChange}
 
                 />

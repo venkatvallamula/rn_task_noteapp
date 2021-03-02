@@ -23,21 +23,18 @@ function EditNotes({navigation}){
         navigation.state.params.editNote({id,note:{noteTitle,noteDescription}})
         navigation.goBack();
     }
-    return(
-    <>
-        <Header titleText = 'Edit Notes'/>
-        <IconButton
-            icon='close'
-            size = {25}
-            color='white'
-            onPress = {()=>{navigation.goBack()}}
-            style = {styles.iconButton}
-        />
+    const onBack=()=>{
+        navigation.goBack();
+    }
+        return(
+        <>
+        <Header onPress={onBack} titleText = 'Edit Notes'/>
         <View style = {styles.container}>
             <TextInput
                 label = 'Add Note Title Here'
                 value = {noteTitle}
                 mode = 'outlined'
+                maxLength={50}
                 onChangeText = {setNoteTitle}
                 style = {styles.title}
             />
@@ -48,6 +45,7 @@ function EditNotes({navigation}){
                 multiline = {true}
                 onChangeText = {setNoteDescription}
                 style = {styles.text}
+                maxLength={50}
                 returnKeyLabel = 'done'
                 blurOnSubmit = {true}
             />

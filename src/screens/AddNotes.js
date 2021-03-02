@@ -13,22 +13,20 @@ function AddNotes({navigation}){
         navigation.state.params.addNote({noteTitle,noteDescription})
         navigation.goBack();
     }
+    const onBack=()=>{
+            navigation.goBack();
+        }
     return(
     <>
-        <Header titleText = 'Add a New Note'/>
-        <IconButton
-            icon='close'
-            size = {25}
-            color='white'
-            onPress = {()=>{navigation.goBack()}}
-            style = {styles.iconButton}
-        />
+        <Header onPress={onBack} titleText = 'Add a New Note'/>
+
         <View style = {styles.container}>
             <TextInput
                 label = 'Add Note Title Here'
                 value = {noteTitle}
                 mode = 'outlined'
                 onChangeText = {setNoteTitle}
+                maxLength={50}
                 style = {styles.title}
             />
             <TextInput
@@ -39,13 +37,14 @@ function AddNotes({navigation}){
                 onChangeText = {setNoteDescription}
                 style = {styles.text}
                 returnKeyLabel = 'done'
+                maxLength={50}
                 blurOnSubmit = {true}
             />
             <FAB
                 style = {styles.fab}
                 small
                 icon='check'
-                disable = {noteTitle==''?true:false}
+                disable = {noteTitle != '' ? true:false}
                 onPress = {()=>onSaveButton()}
             />
         </View>
@@ -76,7 +75,7 @@ const styles = StyleSheet.create({
         backgroundColor:'#d3d3d3'
     },
     iconButton:{
-        backgroundColor:'#219653',
+        backgroundColor:'#fff',
         position:'absolute',
         margin:10,
         top:40,
