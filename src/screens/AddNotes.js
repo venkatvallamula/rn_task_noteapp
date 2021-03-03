@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
         backgroundColor:'#d3d3d3'
     },
     text:{
-        height:300,
+        height:200,
         fontSize:16,
         backgroundColor:'#d3d3d3'
     },

@@ -54,9 +54,8 @@ function ViewNotes({navigation}){
     }
     const renderHiddenItem = () => (
         <View style={styles.rowBack}>
-            <View style={[styles.backRightBtn, styles.backRightBtnRight]}>
-                <Text style={styles.backTextWhite}>Delete</Text>
-            </View>
+                <Text style={styles.backTextWhite}>DELETE</Text>
+                <Text style={styles.backTextWhite}>DELETE</Text>
         </View>
     );
     const onSwipeValueChange = swipeData => {
@@ -97,10 +96,9 @@ function ViewNotes({navigation}){
                     )}
                     renderHiddenItem={renderHiddenItem}
                     keyExtractor={(item, index) => index.toString()}
-                    leftOpenValue={70}
-                    rightOpenValue ={-70}
-                    stopLeftSwipe={200}
-                    stopRightSwipe={200}
+                    leftOpenValue={50}
+                    rightOpenValue ={-100}
+                    closeOnRowBeginSwipe
                     onSwipeValueChange={onSwipeValueChange}
 
                 />
@@ -156,6 +154,7 @@ const styles = StyleSheet.create({
             flexDirection: 'row',
             justifyContent: 'space-between',
             paddingLeft: 15,
+            paddingRight:15,
         },
         backRightBtn: {
             alignItems: 'center',

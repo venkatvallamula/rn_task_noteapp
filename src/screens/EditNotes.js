@@ -76,11 +76,12 @@ const styles = StyleSheet.create({
     title:{
         fontSize:24,
         marginBottom:16,
-
+        backgroundColor:'#d3d3d3'
     },
     text:{
-        height:300,
-        fontSize:16
+        height:200,
+        fontSize:16,
+        backgroundColor:'#d3d3d3'
     },
     iconButton:{
         backgroundColor:'#219653',
